@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <display-name>Cloud Study App</display-name>
+
+    <filter>
+        <filter-name>basicAuthFilter</filter-name>
+        <filter-class>com.example.cloudstudy.web.BasicAuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>basicAuthFilter</filter-name>
+        <url-pattern>/config</url-pattern>
+        <url-pattern>/status</url-pattern>
+        <url-pattern>/api/config</url-pattern>
+        <url-pattern>/api/server-status</url-pattern>
+        <url-pattern>/api/db/*</url-pattern>
+        <url-pattern>/api/storage/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>homeServlet</servlet-name>
+        <servlet-class>com.example.cloudstudy.web.HomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>homeServlet</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>configServlet</servlet-name>
+        <servlet-class>com.example.cloudstudy.web.ConfigServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>configServlet</servlet-name>
+        <url-pattern>/config</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>statusServlet</servlet-name>
+        <servlet-class>com.example.cloudstudy.web.StatusServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>statusServlet</servlet-name>
+        <url-pattern>/status</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>apiServlet</servlet-name>
+        <servlet-class>com.example.cloudstudy.web.ApiServlet</servlet-class>
+        <multipart-config>
+            <max-file-size>10485760</max-file-size>
+            <max-request-size>11534336</max-request-size>
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>apiServlet</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>

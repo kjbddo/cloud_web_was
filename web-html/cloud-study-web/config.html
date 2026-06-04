@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>설정 관리</title>
+    <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body>
+<main class="container">
+    <nav class="nav">
+        <a href="./index.html">홈</a>
+        <a href="./status.html">서버 상태</a>
+        <a href="./db.html">DB 실습</a>
+        <a href="./storage.html">스토리지 실습</a>
+    </nav>
+
+    <section class="panel">
+        <h1>외부 설정 파일 관리</h1>
+        <p>
+            이 HTML은 Apache2에서 제공되고, 저장 요청은 Tomcat WAR의 <code>/api/config</code>로 전달됩니다.
+            민감값은 조회 시 마스킹되며, 비밀번호와 SAS 토큰은 변경할 때만 입력하세요.
+        </p>
+
+        <div id="message" class="alert hidden"></div>
+
+        <form id="configForm" class="form">
+            <label>
+                <span>db.endpoint</span>
+                <input type="text" name="db.endpoint" autocomplete="off">
+            </label>
+            <label>
+                <span>db.username</span>
+                <input type="text" name="db.username" autocomplete="off">
+            </label>
+            <label>
+                <span>db.password (민감값)</span>
+                <input type="password" name="db.password" placeholder="변경할 때만 입력" autocomplete="new-password">
+            </label>
+            <label>
+                <span>storage.account</span>
+                <input type="text" name="storage.account" autocomplete="off">
+            </label>
+            <label>
+                <span>storage.container</span>
+                <input type="text" name="storage.container" autocomplete="off">
+            </label>
+            <label>
+                <span>storage.sas (민감값)</span>
+                <input type="password" name="storage.sas" placeholder="변경할 때만 입력" autocomplete="new-password">
+            </label>
+            <label>
+                <span>storage.file.share</span>
+                <input type="text" name="storage.file.share" placeholder="Azure File Share 이름" autocomplete="off">
+            </label>
+            <label>
+                <span>storage.file.directory</span>
+                <input type="text" name="storage.file.directory" placeholder="선택: 디렉터리 경로, 예: uploads" autocomplete="off">
+            </label>
+            <label>
+                <span>was.baseUrl</span>
+                <input type="text" name="was.baseUrl" placeholder="예: http://localhost:8080/cloud-study-app" autocomplete="off">
+            </label>
+
+            <button type="submit">저장</button>
+        </form>
+
+        <div class="note">
+            <h2>현재 저장된 설정값</h2>
+            <table>
+                <tbody id="configTable"></tbody>
+            </table>
+        </div>
+
+        <p class="path">
+            설정 파일 최종 경로:
+            <code id="configPath">조회 전입니다.</code>
+        </p>
+    </section>
+</main>
+<script src="./assets/app.js"></script>
+<script>
+    CloudStudy.initConfigPage();
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB CRUD 실습</title>
+    <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body>
+<main class="container">
+    <nav class="nav">
+        <a href="./index.html">홈</a>
+        <a href="./config.html">설정 관리</a>
+        <a href="./status.html">서버 상태</a>
+        <a href="./storage.html">스토리지 실습</a>
+    </nav>
+
+    <section class="panel">
+        <h1>DB CRUD 실습</h1>
+        <p>
+            <code>/config.html</code>에서 저장한 <code>db.endpoint</code>, <code>db.username</code>,
+            <code>db.password</code>를 이용해 WAS가 DB에 연결합니다. 이 화면은 DDL 예시의
+            <code>cloud_assets</code> 테이블을 기준으로 조회, 추가, 수정, 삭제를 수행합니다.
+        </p>
+        <p class="warning">
+            먼저 <code>docs/sql/cloud-study-mysql-ddl.sql</code>을 DB에서 실행하고, <code>db.endpoint</code>의 DB 이름을
+            <code>cloud_study_app</code>으로 맞추는 것을 권장합니다.
+            MySQL은 WAR에 드라이버가 포함되어 있습니다. 다른 DB를 사용할 경우 해당 JDBC 드라이버를 Tomcat <code>lib</code>
+            또는 WAR 의존성에 추가하세요.
+        </p>
+
+        <div id="dbMessage" class="alert hidden"></div>
+
+        <div class="actions">
+            <button type="button" id="dbTestButton">DB 연결 확인</button>
+            <button type="button" id="dbReloadButton">목록 새로고침</button>
+        </div>
+        <pre id="dbTestResult" class="result">아직 연결 확인을 하지 않았습니다.</pre>
+
+        <form id="dbForm" class="form">
+            <input type="hidden" id="dbId" name="id">
+            <label>
+                <span>리소스 이름</span>
+                <input type="text" id="dbAssetName" name="assetName" placeholder="예: web-vm-01" required>
+            </label>
+            <label>
+                <span>리소스 유형</span>
+                <select id="dbAssetType" name="assetType" required>
+                    <option value="WEB">WEB</option>
+                    <option value="WAS">WAS</option>
+                    <option value="DB">DB</option>
+                    <option value="STORAGE">STORAGE</option>
+                    <option value="ETC">ETC</option>
+                </select>
+            </label>
+            <label>
+                <span>소유자</span>
+                <input type="text" id="dbOwnerName" name="ownerName" placeholder="예: cloud-team" required>
+            </label>
+            <label>
+                <span>상태</span>
+                <select id="dbStatus" name="status" required>
+                    <option value="READY">READY</option>
+                    <option value="RUNNING">RUNNING</option>
+                    <option value="STOPPED">STOPPED</option>
+                    <option value="ERROR">ERROR</option>
+                </select>
+            </label>
+            <label>
+                <span>설명</span>
+                <textarea id="dbDescription" name="description" rows="4" placeholder="리소스 설명을 입력하세요."></textarea>
+            </label>
+            <div class="actions">
+                <button type="submit">저장</button>
+                <button type="button" id="dbCancelButton" class="secondary">입력 초기화</button>
+            </div>
+        </form>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>리소스 이름</th>
+                <th>유형</th>
+                <th>소유자</th>
+                <th>상태</th>
+                <th>설명</th>
+                <th>수정 시간</th>
+                <th>작업</th>
+            </tr>
+            </thead>
+            <tbody id="dbTable"></tbody>
+        </table>
+    </section>
+</main>
+<script src="./assets/app.js"></script>
+<script>
+    CloudStudy.initDbPage();
+</script>
+</body>
+</html>
